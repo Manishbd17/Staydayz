@@ -1,2 +1,5 @@
 Creating context to provide information to all the routes and components from one context
 In development mode, React renders each components twice. 
+
+
+

@@ -1,7 +1,7 @@
 import { useState,useEffect} from "react";
-import Perks from "../Perks";
+import Perks from "../Perks.jsx";
 import axios from "axios";
-import PhotosUploader from "../PhotosUploader";
+import PhotosUploader from "../PhotosUploader.jsx";
 import AccountNav from "../AccountNav";
 import { Navigate, useParams } from "react-router-dom";
 
@@ -23,7 +23,7 @@ export default function PlacesFormPage () {
         if(!id){
             return ; 
         }
-        axios.get('/places'+id).then(response => {
+        axios.get('/places/'+id).then(response => {
             const {data} = response; 
             setTitle(data.title);
             setAddress(data.address);
@@ -35,7 +35,7 @@ export default function PlacesFormPage () {
             setCheckOut(data.checkOut);
             setMaxGuests(data.maxGuests);
             setPrice(data.price); 
-        })
+        });
     },[id]);
 
     function inputHeader(text) {
@@ -116,26 +116,20 @@ export default function PlacesFormPage () {
                         <input type="text" 
                         value={checkOut} 
                         onChange={ev=>setCheckOut(ev.target.value)} 
-                        placeholder="" />
+                        placeholder="18:00" />
                     </div>
                     <div>
                         <h3 className="mt-2 -mb-1">Max number of guests</h3>
-                        <input type="number" 
-                        value={maxGuests} 
-                        onChange={ev=>setMaxGuests(ev.target.value)} 
-                        placeholder="" />
+                        <input type="number" value={maxGuests} 
+                        onChange={ev=>setMaxGuests(ev.target.value)}/>
                     </div>
                     <div>
                         <h3 className="mt-2 -mb-1">Price per night</h3>
-                        <input type="number" 
-                        value={price} 
-                        onChange={ev=>setPrice(ev.target.value)}
-                        placeholder="100" />
+                        <input type="number" value={price} 
+                               onChange={ev=>setPrice(ev.target.value)}/>
                     </div>
                 </div>
-                <div>
-                    <button className="primary my-4">Save</button>
-                </div>
+                <button className="primary my-4">Save</button>
             </form>
         </div>
     );
