@@ -143,7 +143,7 @@ app.post('/api/upload', photosMiddleware.array('photos', 100), async (req,res)=>
     const uploadedFiles = []; 
     //Renaming the files with appending extension. 
     for(let i=0;i<req.files.length;i++){
-        const {path,originalname,mimeType} = req.files[i];
+        const {path,originalname,mimetype} = req.files[i];
         const url = await uploadToS3(path, originalname, mimetype);
         uploadedFiles.push(url); 
     }
