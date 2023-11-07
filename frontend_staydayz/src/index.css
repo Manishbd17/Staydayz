@@ -7,7 +7,7 @@ input[type="text"],input[type="password"],input[type="email"],input[type="number
 }
 
 textarea{
-  height: 70px ;
+  height: 120px ;
 }
 
 button {
