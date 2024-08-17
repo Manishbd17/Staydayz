@@ -89,9 +89,9 @@ export default function PlacesFormPage () {
             <AccountNav />
             <form onSubmit={savePlace}>
                 {preInput('Title','Title for your place')}
-                <input type="text" value={title} onChange={ev=> setTitle(ev.target.value)} placeholder="title,for example: My remote resort" /> 
+                <input type="text" value={title} onChange={ev=> setTitle(ev.target.value)} placeholder="Title,for example: Yowamushi Resorts" /> 
                 {preInput('Address','Address to this place')}
-                <input type="text" value={address} onChange={ev=>setAddress(ev.target.value)} placeholder="address" />
+                <input type="text" value={address} onChange={ev=>setAddress(ev.target.value)} placeholder="Address,for example : Tokyo" />
                 {preInput('Photos','Photos of this place')}
                 <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos}/>
                 {preInput('Description','Description of the place')}
