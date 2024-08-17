@@ -13,7 +13,7 @@ const multer = require('multer');
 const fs = require('fs'); 
 const mime = require('mime-types'); 
 
-require('dotenv').config()
+require('dotenv').config();
 const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
@@ -62,11 +62,13 @@ function getUserDataFromReq(req) {
 // useNewUrlParser: true,
 // useUnifiedTopology: true, 
 
+//API used for testing. 
 app.get('/api/test', (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     res.json('test ok');
 });
 
+// //API for user registration. 
 app.post('/api/register', async (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     const {name,email,password} = req.body; 
@@ -82,6 +84,7 @@ app.post('/api/register', async (req,res) => {
     }
 }); 
 
+//API for User login. 
 app.post('/api/login', async (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     const {email, password} = req.body; 
@@ -89,7 +92,7 @@ app.post('/api/login', async (req,res) => {
     if(userDoc){
         const passOk = bcrypt.compareSync(password, userDoc.password); 
         if(passOk) {
-            //If password is ok, we want to create a json web token and response with the cookie 
+            //If password is ok, we want to create a json web token and respond with the cookie 
             jwt.sign({
                 email:userDoc.email,
                 id: userDoc._id
@@ -105,6 +108,7 @@ app.post('/api/login', async (req,res) => {
     }
 });
 
+//API for fetching the profile. 
 app.get('/api/profile', (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     const {token} = req.cookies; 
@@ -121,12 +125,13 @@ app.get('/api/profile', (req,res) => {
     }
 });
 
+//API for user logout. 
 app.post('/api/logout', (req,res)=> {
     res.cookie('token', '').json(true); 
 });
 //Resetting the token 
 
-
+//API for photos upload by link. 
 app.post('/api/uploadbylink', async (req,res) => {
     const {link} = req.body; 
     const newName = 'photo' + Date.now() + '.jpg'; 
@@ -138,6 +143,7 @@ app.post('/api/uploadbylink', async (req,res) => {
     res.json(url); 
 });
 
+//API for uploading files to Amazon S3. 
 const photosMiddleware = multer({dest:'/tmp'});
 app.post('/api/upload', photosMiddleware.array('photos', 100), async (req,res)=> {
     const uploadedFiles = []; 
@@ -150,6 +156,7 @@ app.post('/api/upload', photosMiddleware.array('photos', 100), async (req,res)=>
     res.json(uploadedFiles);
 });
 
+//API for fetching up the places. 
 app.post('/api/places', (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     const {token} = req.cookies; 
@@ -169,6 +176,7 @@ app.post('/api/places', (req,res) => {
     });
 });
 
+//API for fetching up places booked by user.  
 app.get('/api/user-places', (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     const {token} = req.cookies; 
@@ -178,12 +186,14 @@ app.get('/api/user-places', (req,res) => {
     }); 
 });
 
+//API for fectching places by ID. 
 app.get('/api/places/:id', async (req,res)=> {
     mongoose.connect(process.env.MONGO_URL);
     const {id} = req.params; 
     res.json(await Place.findById(id)); 
-})
+});
 
+//API for adding new places. 
 app.put('/api/places', async(req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     const {token} = req.cookies; 
@@ -205,11 +215,13 @@ app.put('/api/places', async(req,res) => {
     });
 });
 
+//API for fetching the places. 
 app.get('/api/places', async (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     res.json(await Place.find());
 });
 
+//API for booking a place. 
 app.post('/api/bookings', async (req,res) => {
     mongoose.connect(process.env.MONGO_URL);
     const userData = await getUserDataFromReq(req); 
@@ -226,10 +238,11 @@ app.post('/api/bookings', async (req,res) => {
     });
 });
 
+//API for fetching up the bookings. 
 app.get('/api/bookings', async (req,res)=> {
     mongoose.connect(process.env.MONGO_URL);
     const userData = await getUserDataFromReq(req); 
-    res.json( await Booking.find({user: userData.id})); 
+    res.json( await Booking.find({user: userData.id}).populate('place')); 
 });
 
 app.listen(4000);

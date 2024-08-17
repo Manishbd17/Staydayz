@@ -17,7 +17,7 @@ export default function PlacesFormPage () {
     const [checkOut,setCheckOut] = useState('');
     const [maxGuests,setMaxGuests] = useState(1);
     const [price,setPrice] = useState(100); 
-    const [redirect,setRedirect] = useState(''); 
+    const [redirect,setRedirect] = useState(false); 
 
     useEffect(() => {
         if(!id){
@@ -92,7 +92,7 @@ export default function PlacesFormPage () {
                 <input type="text" value={title} onChange={ev=> setTitle(ev.target.value)} placeholder="title,for example: My remote resort" /> 
                 {preInput('Address','Address to this place')}
                 <input type="text" value={address} onChange={ev=>setAddress(ev.target.value)} placeholder="address" />
-                {preInput('Photos','Photos to this place')}
+                {preInput('Photos','Photos of this place')}
                 <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos}/>
                 {preInput('Description','Description of the place')}
                 <textarea value={description} onChange={ev=>setDescription(ev.target.value)}/>
@@ -102,7 +102,7 @@ export default function PlacesFormPage () {
                 </div>  
                 {preInput('Extra Info','House Rules,etc.')}
                 <textarea value={extraInfo} onChange={ev=>setExtraInfo(ev.target.value)} />
-                {preInput('Check in and out times','Add check in and out times')}
+                {preInput('Check in and out times','Add check in and out times,please keep some time window for cleaning the room between guests.')}
                 <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
                     <div>
                         <h3 className="mt-2 -mb-1">Check in time</h3>

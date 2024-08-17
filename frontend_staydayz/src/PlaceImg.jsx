@@ -1,6 +1,6 @@
 import Image from "./Image.jsx";
 
-export default function PlaceImg({place,index=0},className=null) {
+export default function PlaceImg({place,index=0,className=null}) {
     if(!place.photos?.length) {
         return '';
     }
