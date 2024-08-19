@@ -139,7 +139,7 @@ app.post('/api/uploadbylink', async (req,res) => {
         url: link,
         dest: '/tmp/' + newName,
     });
-    const url = uploadToS3('/tmp/' +newName, newName, mime.lookup('/tmp/' +newName)); 
+    const url = await uploadToS3('/tmp/' +newName, newName, mime.lookup('/tmp/' +newName)); 
     res.json(url); 
 });
 
